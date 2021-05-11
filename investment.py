@@ -8,7 +8,7 @@
 __author__       = "Mark Sattolo"
 __author_email__ = "epistemik@gmail.com"
 __created__ = "2018"
-__updated__ = "2021-05-10"
+__updated__ = "2021-05-11"
 
 from sys import path
 path.append("/newdata/dev/git/Python/utils/")
@@ -273,7 +273,7 @@ class InvestmentRecord:
             RRSP : {TRADE:[], PRICE:[]}
         }
 
-        self._lgr.info(F"{self.__class__.__name__}: Runtime = {get_current_time()}")
+        self._lgr.debug(F"{self.__class__.__name__}: Runtime = {get_current_time()}")
 
     def __getitem__(self, item:str):
         if item in (OPEN,TFSA,RRSP):

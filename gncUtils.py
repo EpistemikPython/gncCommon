@@ -11,7 +11,7 @@ __author__       = "Mark Sattolo"
 __author_email__ = "epistemik@gmail.com"
 __gnucash_version__ = "?3.5+"
 __created__ = "2019-04-07"
-__updated__ = "2021-02-16"
+__updated__ = "2021-05-11"
 
 import threading
 from datetime import date
@@ -23,7 +23,7 @@ import csv
 from gnucash import GncNumeric, GncCommodity, GncPrice, Account, Session, Split, Transaction
 from gnucash.gnucash_core_c import CREC
 from mhsUtils import Decimal, ZERO, ONE_DAY
-path.append("/newdata/dev/git/Python/Gnucash/createGncTxs/")
+path.append("/newdata/dev/git/Python/Gnucash/common")
 from investment import *
 
 
