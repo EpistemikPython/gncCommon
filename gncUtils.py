@@ -1,7 +1,7 @@
 ##############################################################################################################################
 # coding=utf-8
 #
-# gnucash_utilities.py -- useful classes, functions & constants
+# gncUtils.py -- useful classes, functions & constants for working with Gnucash files
 #
 # some code from gnucash examples by Mark Jenkins, ParIT Worker Co-operative <mark@parit.ca>
 #
