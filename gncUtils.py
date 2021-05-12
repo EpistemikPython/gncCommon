@@ -442,7 +442,6 @@ class GnucashSession:
 
         # create a gnucash Tx -- gets a guid on construction
         gtx = Transaction(self._book)
-
         gtx.BeginEdit()
 
         gtx.SetCurrency(self._currency)

@@ -9,6 +9,7 @@
 **/in
 **/out
 **/logs
+**/docs
 /bindings
 **/examples
 **/*test*
