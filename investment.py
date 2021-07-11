@@ -8,7 +8,7 @@
 __author__       = "Mark Sattolo"
 __author_email__ = "epistemik@gmail.com"
 __created__ = "2018"
-__updated__ = "2021-05-11"
+__updated__ = "2021-07-10"
 
 from sys import path
 path.append("/newdata/dev/git/Python/utils/")
@@ -56,11 +56,8 @@ YR:str          = "Year"
 YEAR:str        = YR
 MTH:str         = "Month"
 ALL:str         = "ALL"
-ALL_YRS:str     = ALL + " Years"
-EARLY_YRS:str   = "2008-10"
-MID_YRS:str     = "2011-14"
-RECENT_YRS:str  = "2015-18"
-CURRENT_YRS:str = "2019-21"
+YEARS:str       = " " + YR + "s"
+ALL_YEARS:str   = ALL + YEARS
 GNC:str         = "Gnucash"
 MON:str         = "Monarch"
 TXS:str         = "TRANSACTIONS"
