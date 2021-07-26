@@ -11,7 +11,7 @@ __author__       = "Mark Sattolo"
 __author_email__ = "epistemik@gmail.com"
 __gnucash_version__ = "?3.5+"
 __created__ = "2019-04-07"
-__updated__ = "2021-05-16"
+__updated__ = "2021-07-26"
 
 import threading
 from datetime import date
@@ -22,10 +22,11 @@ from copy import copy
 import csv
 from gnucash import GncNumeric, GncCommodity, GncPrice, Account, Session, Split, Transaction
 from gnucash.gnucash_core_c import CREC
-path.append("/newdata/dev/git/Python/utils")
-from mhsUtils import Decimal, ZERO, ONE_DAY
+path.append("/home/marksa/git/Python/utils")
+from mhsUtils import Decimal, ZERO, ONE_DAY, BASE_DEV_HOME
 from investment import *
 
+BASE_GNUCASH_FOLDER = osp.join(BASE_DEV_HOME, "Gnucash")
 
 def gnc_numeric_to_python_decimal(numeric:GncNumeric, logger:lg.Logger=None) -> Decimal:
     """

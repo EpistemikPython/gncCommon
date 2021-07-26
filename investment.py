@@ -8,10 +8,10 @@
 __author__       = "Mark Sattolo"
 __author_email__ = "epistemik@gmail.com"
 __created__ = "2018"
-__updated__ = "2021-07-10"
+__updated__ = "2021-07-26"
 
 from sys import path
-path.append("/newdata/dev/git/Python/utils/")
+path.append("/home/marksa/git/Python/utils/")
 from mhsUtils import dt, now_dt, lg, osp, FILE_DATETIME_FORMAT, get_current_time
 from secret import *
 
