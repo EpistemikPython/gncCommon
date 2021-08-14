@@ -8,7 +8,7 @@
 __author__       = "Mark Sattolo"
 __author_email__ = "epistemik@gmail.com"
 __created__ = "2018"
-__updated__ = "2021-07-26"
+__updated__ = "2021-08-14"
 
 from sys import path
 path.append("/home/marksa/git/Python/utils/")
@@ -75,11 +75,11 @@ CENTS:str       = '\u00A2'
 FUND:str        = "Fund"
 CMPY:str        = "Company"
 FUND_CODE:str   = FUND + " Code"
-FUND_CMPY:str   = FUND + " " + CMPY
+FUND_CMPY:str   = FUND + ' ' + CMPY
 DATE:str        = "Date"
 TIME:str        = "Time"
 TRADE:str       = "Trade"
-TRADE_DATE:str  = TRADE + " " + DATE
+TRADE_DATE:str  = TRADE + ' ' + DATE
 TRADE_DAY:str   = TRADE + " Day"
 TRADE_MTH:str   = TRADE + " Month"
 TRADE_YR:str    = TRADE + " Year"
@@ -96,7 +96,7 @@ NOTES:str       = "Notes"
 LOAD:str        = "Load"
 FEE:str         = "Fee"
 RDMPN:str       = "Redemption"
-FEE_RDM:str     = FEE + " " + RDMPN
+FEE_RDM:str     = FEE + ' ' + RDMPN
 PURCH:str       = "Purchase"
 DIST:str        = "Dist"
 SWITCH:str      = "Switch"
@@ -111,6 +111,7 @@ DOLLAR:str      = "Dollar"
 DLR_AVE:str     = DOLLAR + " Cost Averaging "
 DCA_IN:str      = DLR_AVE + SW_IN
 DCA_OUT:str     = DLR_AVE + SW_OUT
+FND_MERG:str    = FUND + " Merger"
 PLAN_DATA:str   = "Plan Data"
 OWNER:str       = "Owner"
 
@@ -122,19 +123,20 @@ MFC:str = "MFC"
 MMF:str = "MMF"
 TML:str = "TML"
 
-PAIRED_TYPES = [SW_IN, SW_OUT, DCA_IN, DCA_OUT, INTRF_IN, INTRF_OUT]
-
 TX_TYPES = {
     FEE      : FEE_RDM ,
-    SW_IN    : SW_IN  ,
-    SW_OUT   : SW_OUT ,
+    SW_IN    : SW_IN   ,
+    SW_OUT   : SW_OUT  ,
     REINV    : REINV + " Distribution" ,
     AUTO_SYS : AUTO_SYS + " Withdrawal Plan" ,
     RDMPN    : RDMPN   ,
     PURCH    : PURCH   ,
     DCA_IN   : DCA_IN  ,
-    DCA_OUT  : DCA_OUT
+    DCA_OUT  : DCA_OUT ,
+    FUND     : FND_MERG
 }
+
+PAIRED_TYPES = [ SW_IN, SW_OUT, DCA_IN, DCA_OUT, INTRF_IN, INTRF_OUT, FND_MERG ]
 
 # Company names
 COMPANY_NAME = {
@@ -197,6 +199,7 @@ MFC_6138  = MFC + " 6138"  # Mackenzie Strategic Income Fund Series PW
 MFC_302   = MFC + " 302"   # Mackenzie Canadian Bond Fund Series A
 MFC_3769  = MFC + " 3769"  # Mackenzie Canadian Bond Fund Series SC
 MFC_6129  = MFC + " 6129"  # Mackenzie Canadian Bond Fund Series PW
+MFC_9248  = MFC + " 9248"  # Mackenzie Strategic Income T5
 MFC_1960  = MFC + " 1960"  # Mackenzie Strategic Income Class Series T6
 MFC_3689  = MFC + " 3689"  # Mackenzie Strategic Income Class Series T6
 MFC_298   = MFC + " 298"   # Mackenzie Cash Management A
@@ -215,7 +218,7 @@ FUNDS_LIST = [
     TML_674, TML_703, TML_704, TML_180, TML_184, TML_202, TML_203, TML_204, TML_223,
     TML_518, TML_519, TML_598, TML_694, TML_707, TML_1017, TML_1018,
     MFC_756, MFC_856, MFC_6129, MFC_6130, MFC_6138, MFC_302, MFC_2238,
-    MFC_3232, MFC_3769, MFC_3689, MFC_1960, MFC_298, MFC_4378,
+    MFC_3232, MFC_3769, MFC_3689, MFC_1960, MFC_9248, MFC_298, MFC_4378,
     DYN_029, DYN_729, DYN_1562, DYN_1560,
     MMF_44424, MMF_4524, MMF_3517, MMF_13417
 ]
@@ -368,6 +371,7 @@ class TxRecord:
     def __init__(self, p_logger:lg.Logger, p_dt:dt=None, p_dt_str:str="", p_sw:bool=False,
                  p_fcmpy:str="", p_fcode:str="", p_fname:str="", p_gr:float=0.0, p_gr_str:str="",
                  p_pr:float=0.0, p_pr_str:str="", p_un:float=0.0, p_un_str:str=""):
+        self.date = dt.now()
         self.set_date(p_dt)
         self.date_str = p_dt_str
         self.switch = p_sw
