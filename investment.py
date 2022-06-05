@@ -3,12 +3,12 @@
 #
 # investment.py -- classes, constants, variables & functions used with my investment scripts
 #
-# Copyright (c) 2018-21 Mark Sattolo <epistemik@gmail.com>
+# Copyright (c) 2018-22 Mark Sattolo <epistemik@gmail.com>
 
 __author__       = "Mark Sattolo"
 __author_email__ = "epistemik@gmail.com"
 __created__ = "2018"
-__updated__ = "2021-08-14"
+__updated__ = "2022-06-05"
 
 from sys import path
 path.append("/home/marksa/git/Python/utils/")
@@ -152,15 +152,24 @@ COMPANY_NAME = {
 FUND_NAME_CODE = {
     "CIBC"        : ATL ,
     "Renaissance" : ATL ,
+    "RENAISSANCE" : ATL ,
     "CI"          : CIG ,
     "Cambridge"   : CIG ,
+    "CAMBRIDGE"   : CIG ,
     "Signature"   : CIG ,
+    "SIGNATURE"   : CIG ,
     "Sentry"      : CIG ,
+    "SENTRY"      : CIG ,
     "Dynamic"     : DYN ,
+    "DYNAMIC"     : DYN ,
     "Mackenzie"   : MFC ,
+    "MACKENZIE"   : MFC ,
     "Manulife"    : MMF ,
+    "MANULIFE"    : MMF ,
     "Franklin"    : TML ,
-    "Templeton"   : TML
+    "FRANKLIN"    : TML ,
+    "Templeton"   : TML ,
+    "TEMPLETON"   : TML
 }
 
 # Fund codes/names
