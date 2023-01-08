@@ -108,6 +108,7 @@ INTRF_IN:str    = INTRF + "-In"
 INTRF_OUT:str   = INTRF + "-Out"
 REINV:str       = "Reinvested"
 INTRCL:str      = "Inter-Class"
+INTRLD:str      = "Inter-load"
 DOLLAR:str      = "Dollar"
 DLR_AVE:str     = DOLLAR + " Cost Averaging "
 DCA_IN:str      = DLR_AVE + SW_IN
