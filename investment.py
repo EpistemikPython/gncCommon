@@ -1,14 +1,14 @@
 ##############################################################################################################################
 # coding=utf-8
 #
-# investment.py -- classes, constants, variables & functions used with my investment scripts
+# investment.py -- classes & constants used with my investment scripts
 #
 # Copyright (c) 2018-22 Mark Sattolo <epistemik@gmail.com>
 
 __author__       = "Mark Sattolo"
 __author_email__ = "epistemik@gmail.com"
 __created__ = "2018"
-__updated__ = "2022-06-05"
+__updated__ = "2023-01-07"
 
 from sys import path
 path.append("/home/marksa/git/Python/utils/")
