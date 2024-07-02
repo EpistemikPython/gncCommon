@@ -9,7 +9,7 @@
 
 __author__       = "Mark Sattolo"
 __author_email__ = "epistemik@gmail.com"
-__gnucash_version__ = "?3.5+"
+__gnucash_version__ = "3.6+"
 __created__ = "2019-04-07"
 __updated__ = "2024-07-02"
 
@@ -523,5 +523,4 @@ class GnucashSession:
         else:
             self._lgr.warning(F"Mode = {self._mode}: ROLL BACK transaction!\n")
             gtx.RollbackEdit()
-
 # END class GnucashSession
