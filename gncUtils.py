@@ -5,13 +5,13 @@
 #
 # some code from gnucash examples by Mark Jenkins, ParIT Worker Co-operative <mark@parit.ca>
 #
-# Copyright (c) 2019-21 Mark Sattolo <epistemik@gmail.com>
+# Copyright (c) 2024 Mark Sattolo <epistemik@gmail.com>
 
 __author__       = "Mark Sattolo"
 __author_email__ = "epistemik@gmail.com"
 __gnucash_version__ = "?3.5+"
 __created__ = "2019-04-07"
-__updated__ = "2021-08-14"
+__updated__ = "2024-07-02"
 
 import threading
 from datetime import date
@@ -191,9 +191,11 @@ class GnucashSession:
 
         if self._gnc_file not in self._lock:
             self._lock[self._gnc_file] = threading.Lock()
+            self._lgr.info(F"locks defined = {str(self._lock)}")
         else:
-            self._lgr.warning(F"lock {self._gnc_file} ALREADY defined!")
-        self._lgr.info(F"locks defined = {str(self._lock)}")
+            lock_warning = F"lock {self._gnc_file} ALREADY defined!"
+            self._lgr.warning(lock_warning)
+            raise Exception(lock_warning)
 
     def get_domain(self) -> str:
         return self._domain
@@ -221,23 +223,28 @@ class GnucashSession:
         # PREVENT being able to start a separate Session with this Gnucash file
         self._lock[self._gnc_file].acquire()
         self._lgr.info(F"acquired lock {self._gnc_file} at {get_current_time()}")
+        try:
+            self._session = Session(self._gnc_file, is_new=p_new)
+            self._book = self._session.book
+            self._root_acct = self._book.get_root_account()
+            self._root_acct.get_instance()
+            self._commod_table = self._book.get_table()
 
-        self._session = Session(self._gnc_file, is_new=p_new)
-        self._book = self._session.book
-        self._root_acct = self._book.get_root_account()
-        self._root_acct.get_instance()
-        self._commod_table = self._book.get_table()
+            if self._currency is None:
+                self.set_currency(self._commod_table.lookup("ISO4217", "CAD"))
 
-        if self._currency is None:
-            self.set_currency(self._commod_table.lookup("ISO4217", "CAD"))
-
-        if self._domain in (PRICE,BOTH):
-            self._price_db = self._book.get_price_db()
-            self._lgr.debug('self.price_db.begin_edit()')
-            self._price_db.begin_edit()
+            if self._domain in (PRICE,BOTH):
+                self._price_db = self._book.get_price_db()
+                self._lgr.debug('self.price_db.begin_edit()')
+                self._price_db.begin_edit()
+        except Exception as gncex:
+            raise gncex
+        finally:
+            if self._session:
+                self.end_session()
 
     def end_session(self, p_save:bool=None):
-        self._lgr.debug(get_current_time())
+        self._lgr.debug( get_current_time() )
 
         save_session = p_save if p_save else (self._mode == SEND)
         if save_session:
