@@ -3,12 +3,12 @@
 #
 # investment.py -- classes & constants used with my investment scripts
 #
-# Copyright (c) 2018-22 Mark Sattolo <epistemik@gmail.com>
+# Copyright (c) 2024 Mark Sattolo <epistemik@gmail.com>
 
 __author__       = "Mark Sattolo"
 __author_email__ = "epistemik@gmail.com"
 __created__ = "2018"
-__updated__ = "2023-01-07"
+__updated__ = "2024-07-09"
 
 from sys import path
 path.append("/home/marksa/git/Python/utils/")
@@ -27,8 +27,12 @@ TOTAL:str   = "Total"
 FAM:str     = "FAMILY"
 LIQ:str     = "LIQUID"
 PM:str      = "Prec Metals"
+CAR:str     = "Car Value"
 REW:str     = "Rewards"
 LIAB:str    = "LIABS"
+CC:str      = "CC" # credit card debt
+KIA:str     = "Kia Loan"
+SLINE:str   = "ScotiaLine"
 CHAL:str    = "CHALET"
 HOLD:str    = "HOLD"
 ASSET:str   = "Asset"
