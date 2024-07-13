@@ -8,7 +8,7 @@
 __author__       = "Mark Sattolo"
 __author_email__ = "epistemik@gmail.com"
 __created__ = "2018"
-__updated__ = "2024-07-09"
+__updated__ = "2024-07-11"
 
 from sys import path
 path.append("/home/marksa/git/Python/utils/")
@@ -30,7 +30,7 @@ PM:str      = "Prec Metals"
 CAR:str     = "Car Value"
 REW:str     = "Rewards"
 LIAB:str    = "LIABS"
-CC:str      = "CC" # credit card debt
+CC:str      = "CC"     # credit card debt
 KIA:str     = "Kia Loan"
 SLINE:str   = "ScotiaLine"
 CHAL:str    = "CHALET"
@@ -242,7 +242,7 @@ MONEY_MKT_FUNDS = [MFC_298, MFC_4378, TML_204, TML_703]
 
 TRUST_AST_ACCT = CIG_18140
 TRUST_EQY_ACCT = "Trust Base"
-TRUST_REV_ACCT = "Trust_Dist"
+TRUST_REV_ACCT = "Trust_Rev"
 
 # find the proper path to the account in the gnucash file
 ACCT_PATHS = {
@@ -250,7 +250,7 @@ ACCT_PATHS = {
     ASSET    : ["FAMILY", "INVEST"] ,  # + planType [+ Owner]
     MON_MARK : GNC_MARK ,
     MON_LULU : GNC_LULU ,
-    TRUST    : [TRUST, "Trust Assets", "Monarch ITF", COMPANY_NAME[CIG]]
+    TRUST    : [TRUST, "Monarch ITF", COMPANY_NAME[CIG]]
 }
 
 # parsing states
@@ -375,7 +375,6 @@ class InvestmentRecord:
             "Size"         : self.get_size_str(plan_spec, type_spec) ,
             PLAN_DATA      : self._records
         }
-
 # END class InvestmentRecord
 
 
@@ -446,5 +445,4 @@ class TxRecord:
         else:
             self._lgr.warning(F"BAD date: {p_date}")
         return old_date
-
 # END class TxRecord
