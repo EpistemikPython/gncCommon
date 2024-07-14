@@ -7,11 +7,11 @@
 #
 # Copyright (c) 2024 Mark Sattolo <epistemik@gmail.com>
 
-__author__       = "Mark Sattolo"
-__author_email__ = "epistemik@gmail.com"
+__author__          = "Mark Sattolo"
+__author_email__    = "epistemik@gmail.com"
 __gnucash_version__ = "3.6+"
 __created__ = "2019-04-07"
-__updated__ = "2024-07-06"
+__updated__ = "2024-07-12"
 
 import threading
 from datetime import date
@@ -28,11 +28,12 @@ from investment import *
 
 BASE_GNUCASH_FOLDER = osp.join(BASE_DEV_FOLDER, "Gnucash")
 
-def gnc_numeric_to_python_decimal(numeric:GncNumeric, logger:lg.Logger=None) -> Decimal:
+def gnc_numeric_to_python_decimal(numeric:GncNumeric, logger:lg.Logger = None) -> Decimal:
     """
     convert a GncNumeric value to a python Decimal value
-    :param numeric: value to convert
-    :param  logger
+    :param   numeric: value to convert
+    :param    logger: optional
+    :return python Decimal equivalent of submitted GncNumeric value
     """
     if logger: logger.debug(F"numeric = {numeric.num()}/{numeric.denom()}")
 
@@ -51,14 +52,13 @@ def gnc_numeric_to_python_decimal(numeric:GncNumeric, logger:lg.Logger=None) -> 
     assert ((10**exponent) == denominator)
     return Decimal((sign, digit_tuple, -exponent))
 
-
-def get_splits(p_acct:Account, period_starts:list, periods:list, logger:lg.Logger=None):
+def get_splits(p_acct:Account, period_starts:list, periods:list, logger:lg.Logger = None):
     """
     get the splits for the account and each sub-account and add to periods
     :param        p_acct: to get splits
     :param period_starts: start date for each period
     :param       periods: fill with splits for each quarter
-    :param        logger
+    :param        logger: optional
     """
     if logger: logger.debug(F"account = {p_acct.GetName()}, period starts = {period_starts}, periods = {periods}")
     # insert and add all splits in the periods of interest
@@ -87,16 +87,15 @@ def get_splits(p_acct:Account, period_starts:list, periods:list, logger:lg.Logge
             # add the debit or credit to the overall total
             period[4] += split_amount
 
-
-def fill_splits(base_acct:Account, target_path:list, period_starts:list, periods:list, logger:lg.Logger=None) -> str:
+def fill_splits(base_acct:Account, target_path:list, period_starts:list, periods:list, logger:lg.Logger = None) -> str:
     """
     fill the period list for each account
-    :param     base_acct: base account
-    :param   target_path: account hierarchy from base account to target account
-    :param period_starts: start date for each period
-    :param       periods: fill with the splits dates and amounts for requested time span
-    :param        logger
-    :return: name of target_acct
+    :param       base_acct: base account
+    :param     target_path: account hierarchy from base account to target account
+    :param   period_starts: start date for each period
+    :param         periods: fill with the splits dates and amounts for requested time span
+    :param          logger: optional
+    :return name of target_acct
     """
     account_of_interest = account_from_path(base_acct, target_path, logger)
     acct_name = account_of_interest.GetName()
@@ -115,13 +114,13 @@ def fill_splits(base_acct:Account, target_path:list, period_starts:list, periods
 
     return acct_name
 
-
-def account_from_path(top_account:Account, account_path:list, logger:lg.Logger=None) -> Account:
+def account_from_path(top_account:Account, account_path:list, logger:lg.Logger = None) -> Account:
     """
     RECURSIVE function to get a Gnucash Account: starting from the top account and following the path
-    :param   top_account: base Account
-    :param  account_path: path to follow
-    :param        logger
+    :param    top_account: base Account
+    :param   account_path: path to follow
+    :param         logger: optional
+    :return requested Gnucash Account
     """
     if logger: logger.debug(F"top account = {top_account.GetName()}; account path = {account_path}")
 
@@ -136,13 +135,12 @@ def account_from_path(top_account:Account, account_path:list, logger:lg.Logger=N
     else:
         return acct
 
-
-def csv_write_period_list(periods:list, logger:lg.Logger=None):
+def csv_write_period_list(periods:list, logger:lg.Logger = None):
     """
     Write out the details of the submitted period list in csv format
     :param   periods: dates and amounts for each quarter
-    :param   logger
-    :return: to stdout
+    :param    logger: optional
+    :return to stdout
     """
     if logger: logger.debug(F"periods = {periods}")
 
@@ -156,10 +154,11 @@ def csv_write_period_list(periods:list, logger:lg.Logger=None):
         csv_writer.writerow((start_date, end_date, debit_sum, credit_sum, total))
 
 
+# noinspection PyAttributeOutsideInit
 class GnucashSession:
     """
-    Create, manage and terminate a Gnucash session
-    fxns:
+    Create, manage and terminate a Gnucash session.
+    Fxns:
         get:
             account(s) of various types
             balances from account(s)
@@ -168,10 +167,7 @@ class GnucashSession:
             trade txs
             price txs
     """
-    # PREVENT multiple instances/threads from trying to use the SAME Gnucash file AT THE SAME TIME
-    _lock = dict()
-
-    def __init__(self, p_mode:str, p_gncfile:str, p_domain:str, p_logger:lg.Logger, p_currency:GncCommodity=None):
+    def __init__(self, p_mode:str, p_gncfile:str, p_domain:str, p_logger:lg.Logger, p_currency:GncCommodity = None):
         self._lgr = p_logger
         self._lgr.info(F"\n\tLaunch {self.__class__.__name__} instance on file {p_gncfile}\n\t"
                        F" at Runtime = {get_current_time()}\n")
@@ -183,16 +179,9 @@ class GnucashSession:
         self._currency = None
         self.set_currency(p_currency)
 
-        self._session      = None
-        self._price_db     = None
-        self._book         = None
-        self._root_acct    = None
-        self._commod_table = None
-
-        if self._gnc_file not in self._lock:
-            self._lock[self._gnc_file] = threading.Lock()
-        else:
-            self._lgr.warning(F"lock {self._gnc_file} ALREADY defined!")
+        # PREVENT multiple instances/threads from trying to use the SAME Gnucash file AT THE SAME TIME
+        self._lock = dict()
+        self._lock[self._gnc_file] = threading.Lock()
         self._lgr.info(F"locks defined = {str(self._lock)}")
 
     def get_domain(self) -> str:
@@ -217,10 +206,10 @@ class GnucashSession:
         else:
             self._lgr.error(F"BAD currency '{str(p_curr)}' of type: {type(p_curr)}")
 
-    def begin_session(self, p_new:bool=False):
+    def begin_session(self, p_new:bool = False):
         # PREVENT being able to start a separate Session with this Gnucash file
         self._lock[self._gnc_file].acquire()
-        self._lgr.info(F"acquired lock {self._gnc_file} at {get_current_time()}")
+        self._lgr.info(F"Acquired '{self._gnc_file}' lock at {get_current_time()}")
 
         self._session = Session(self._gnc_file, is_new=p_new)
         self._book = self._session.book
@@ -233,42 +222,47 @@ class GnucashSession:
 
         if self._domain in (PRICE,BOTH):
             self._price_db = self._book.get_price_db()
-            self._lgr.debug('self.price_db.begin_edit()')
+            self._lgr.debug('price_db.begin_edit()')
             self._price_db.begin_edit()
 
-    def end_session(self, p_save:bool=None):
-        self._lgr.debug(get_current_time())
+    def end_session(self, save_session:bool = False):
+        if self._session:
+            if save_session:
+                self._lgr.info(F"Mode = {self._mode}: SAVE session.")
+                if self._domain in (PRICE,BOTH):
+                    self._lgr.info(F"Domain = {self._domain}: COMMIT Price DB edits.")
+                    self._price_db.commit_edit()
+                self._session.save()
+            self._session.end()
+            self._session = None
 
-        save_session = p_save if p_save else (self._mode == SEND)
-        if save_session:
-            self._lgr.info(F"Mode = {self._mode}: SAVE session.")
-            if self._domain in (PRICE,BOTH):
-                self._lgr.info(F"Domain = {self._domain}: COMMIT Price DB edits.")
-                self._price_db.commit_edit()
-            self._session.save()
+        # RELEASE the thread lock on this Gnucash file if still present
+        if self._gnc_file and self._lock[self._gnc_file]:
+            self._lock[self._gnc_file].release()
+            self._lgr.info(F"released lock '{self._gnc_file}' at {get_current_time()}")
+            self._gnc_file = None
 
-        self._session.end()
-
-        # RELEASE the thread lock on this Gnucash file
-        self._lock[self._gnc_file].release()
-        self._lgr.info(F"released lock {self._gnc_file} at {get_current_time()}")
+        self._lgr.info(f"Gnucash session ENDED at {get_current_time()}")
 
     def check_end_session(self, p_locals:dict):
         if "gnucash_session" in p_locals and self._session is not None:
             self._session.end()
 
-    def get_account(self, acct_name:str, acct_parent:Account=None) -> Account:
-        """Under the specified parent account find the Account with the specified name"""
+    def get_account(self, acct_name:str, acct_parent:Account = None) -> Account:
+        """
+        Under the specified parent account find and return the Account with the specified name
+        :param     acct_name: name to search
+        :param   acct_parent: parent Account
+        :return requested Account
+        """
         if acct_parent is None:
             acct_parent = self.get_root_acct()
         acct_parent_name = acct_parent.GetName()
         self._lgr.debug(F"account parent = {acct_parent_name}; account = {acct_name}")
 
-        # special location for Trust account
+        # special location for Trust assets
         if acct_name == TRUST_AST_ACCT:
             found_acct = self._root_acct.lookup_by_name(TRUST).lookup_by_name(TRUST_AST_ACCT)
-        # elif acct_name == TRUST_EQY_ACCT:
-        #     found_acct = self._root_acct.lookup_by_name(EQUITY).lookup_by_name(TRUST_EQY_ACCT)
         else:
             found_acct = acct_parent.lookup_by_name(acct_name)
 
@@ -278,13 +272,13 @@ class GnucashSession:
         self._lgr.debug(F"Found account: {found_acct.GetName()}")
         return found_acct
 
-    def get_account_balance(self, acct:Account, p_date:date, p_currency:GncCommodity=None) -> Decimal:
+    def get_account_balance(self, acct:Account, p_date:date, p_currency:GncCommodity = None) -> Decimal:
         """
-        get the BALANCE in this account on this date in this currency
-        :param       acct: Gnucash Account
-        :param     p_date: required
-        :param p_currency: Gnucash commodity
-        :return: Decimal with balance
+        get the BALANCE in this account on the specified date in the specified or default currency
+        :param        acct: Gnucash Account
+        :param      p_date: required
+        :param  p_currency: Gnucash commodity
+        :return Decimal with balance
         """
         # CALLS ARE RETRIEVING ACCOUNT BALANCES FROM DAY BEFORE!!??
         p_date += ONE_DAY
@@ -297,12 +291,13 @@ class GnucashSession:
 
         return gnc_numeric_to_python_decimal(acct_cur)
 
-    def get_total_balance(self, p_path:list, p_date:date, p_currency:GncCommodity=None) -> Decimal:
+    def get_total_balance(self, p_path:list, p_date:date, p_currency:GncCommodity = None) -> Decimal:
         """
         get the total BALANCE in the account and all sub-accounts on this path on this date in this currency
-        :param     p_path: path to the account
-        :param     p_date: to get the balance
-        :param p_currency: Gnucash Commodity: currency to use for the totals
+        :param      p_path: path to the account
+        :param      p_date: to get the balance
+        :param  p_currency: Gnucash Commodity: currency to use for the totals
+        :return Decimal with total balance
         """
         currency = self._currency if p_currency is None else p_currency
         acct = account_from_path(self._root_acct, p_path)
@@ -319,14 +314,14 @@ class GnucashSession:
         self._lgr.debug(F"{acct.GetName()} on {p_date} = {acct_sum}")
         return acct_sum
 
-    def get_account_assets(self, asset_accts:dict, end_date:date, p_currency:GncCommodity=None, p_data:dict=None) -> dict:
+    def get_account_assets(self, asset_accts:dict, end_date:date, p_currency:GncCommodity = None, p_data:dict = None) -> dict:
         """
         Get ASSET data for the specified accounts for the specified date
         :param       p_data: optional dict for data
         :param  asset_accts: from Gnucash file
         :param     end_date: on which to read the account total
-        :param   p_currency: Gnucash Commodity: currency to use for the sums
-        :return: dict with amounts
+        :param   p_currency: Gnucash Commodity: optional currency to use for the sums
+        :return dict with amounts
         """
         self._lgr.debug(F"end_date = {end_date}")
 
@@ -342,9 +337,10 @@ class GnucashSession:
     def _get_asset_or_revenue_account(self, acct_type:str, plan_type:str, pl_owner:str) -> Account:
         """
         Get the required asset and/or revenue account
-        :param acct_type: from Gnucash file
-        :param plan_type: plan names from investment.InvestmentRecord
-        :param  pl_owner: needed to find proper account for RRSP & TFSA plan types
+        :param  acct_type: from Gnucash file
+        :param  plan_type: plan names from investment.InvestmentRecord
+        :param   pl_owner: needed to find proper account for RRSP & TFSA plan types
+        :return requested Account
         """
         self._lgr.debug(F"account type = {acct_type}; plan type = {plan_type}; plan owner = {pl_owner}")
 
