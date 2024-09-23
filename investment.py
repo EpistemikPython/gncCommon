@@ -1,14 +1,16 @@
 ##############################################################################################################################
 # coding=utf-8
 #
-# investment.py -- classes & constants used with my investment scripts
+# investment.py
+#   -- classes & constants used with my investment scripts
 #
 # Copyright (c) 2024 Mark Sattolo <epistemik@gmail.com>
 
-__author__       = "Mark Sattolo"
-__author_email__ = "epistemik@gmail.com"
+__author__         = "Mark Sattolo"
+__author_email__   = "epistemik@gmail.com"
+__python_version__ = "3.6+"
 __created__ = "2018"
-__updated__ = "2024-07-11"
+__updated__ = "2024-09-23"
 
 from sys import path
 path.append("/home/marksa/git/Python/utils/")
@@ -288,7 +290,7 @@ class InvestmentRecord:
             RRSP : {TRADE:[], PRICE:[]}
         }
 
-        self._lgr.debug(F"{self.__class__.__name__}: Runtime = {get_current_time()}")
+        self._lgr.debug(f"{self.__class__.__name__}: init time = {get_current_time()}")
 
     def __getitem__(self, item:str):
         if item in (OPEN,TFSA,RRSP):
