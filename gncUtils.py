@@ -1,7 +1,8 @@
 ##############################################################################################################################
 # coding=utf-8
 #
-# gncUtils.py -- useful classes, functions & constants for working with Gnucash files
+# gncUtils.py
+#   -- useful classes, functions & constants for working with Gnucash files
 #
 # some code from gnucash examples by Mark Jenkins, ParIT Worker Co-operative <mark@parit.ca>
 #
@@ -11,7 +12,7 @@ __author__          = "Mark Sattolo"
 __author_email__    = "epistemik@gmail.com"
 __gnucash_version__ = "3.6+"
 __created__ = "2019-04-07"
-__updated__ = "2024-07-12"
+__updated__ = "2024-10-05"
 
 import threading
 from datetime import date
@@ -342,23 +343,26 @@ class GnucashSession:
         :param   pl_owner: needed to find proper account for RRSP & TFSA plan types
         :return requested Account
         """
-        self._lgr.debug(F"account type = {acct_type}; plan type = {plan_type}; plan owner = {pl_owner}")
+        self._lgr.debug(f"account type = {acct_type}; plan type = {plan_type}; plan owner = {pl_owner}")
 
         if acct_type not in (ASSET,REV):
-            raise Exception(F"GnucashSession._get_asset_or_revenue_account(): BAD Account type: {acct_type}!")
+            raise Exception(f"GnucashSession._get_asset_or_revenue_account(): BAD Account type: {acct_type}!")
         account_path = copy(ACCT_PATHS[acct_type])
+        self._lgr.debug(f"account_path = {account_path}")
 
         if plan_type not in (OPEN,RRSP,TFSA):
-            raise Exception(F"GnucashSession._get_asset_or_revenue_account(): BAD Plan type: {plan_type}!")
+            raise Exception(f"GnucashSession._get_asset_or_revenue_account(): BAD Plan type: {plan_type}!")
         account_path.append(plan_type)
+        self._lgr.debug(f"account_path = {account_path}")
 
         if plan_type in (RRSP,TFSA):
             if pl_owner not in (MON_MARK,MON_LULU):
-                raise Exception(F"GnucashSession._get_asset_or_revenue_account(): BAD Owner value: {pl_owner}!")
+                raise Exception(f"GnucashSession._get_asset_or_revenue_account(): BAD Owner value: {pl_owner}!")
             account_path.append(ACCT_PATHS[pl_owner])
+            self._lgr.debug(f"account_path = {account_path}")
 
-        target_account = account_from_path(self._root_acct, account_path)
-        self._lgr.debug(F"target_account = {target_account.GetName()}")
+        target_account = account_from_path(self._root_acct, account_path, logger = self._lgr)
+        self._lgr.info(f"target_account = {target_account.GetName()}")
 
         return target_account
 
