@@ -10,7 +10,7 @@ __author__         = "Mark Sattolo"
 __author_email__   = "epistemik@gmail.com"
 __python_version__ = "3.6+"
 __created__ = "2018"
-__updated__ = "2024-09-23"
+__updated__ = "2024-12-19"
 
 from sys import path
 path.append("/home/marksa/git/Python/utils/")
@@ -122,6 +122,10 @@ DCA_OUT:str     = DLR_AVE + SW_OUT
 FND_MERG:str    = FUND + " Merger"
 PLAN_DATA:str   = "Plan Data"
 OWNER:str       = "Owner"
+TRANS_IN:str      = "Transfer-in"
+TRANS_OUT:str     = "Transfer-out"
+INCASH_TRIN:str   = "In " + CASH + " " + TRANS_IN
+INCASH_TROUT:str  = "In " + CASH + " " + TRANS_OUT
 
 # Fund companies
 ATL:str = "ATL"
@@ -130,6 +134,7 @@ DYN:str = "DYN"
 MFC:str = "MFC"
 MMF:str = "MMF"
 TML:str = "TML"
+FID:str = "FID"
 
 TX_TYPES = {
     FEE      : FEE_RDM ,
@@ -153,7 +158,8 @@ COMPANY_NAME = {
     DYN : "Dynamic Funds",
     MFC : "Mackenzie Financial Corp",
     MMF : "Manulife Mutual Funds",
-    TML : "Franklin Templeton"
+    TML : "Franklin Templeton",
+    FID : "Fidelity"
 }
 
 # Company name codes
@@ -177,7 +183,9 @@ FUND_NAME_CODE = {
     "Franklin"    : TML ,
     "FRANKLIN"    : TML ,
     "Templeton"   : TML ,
-    "TEMPLETON"   : TML
+    "TEMPLETON"   : TML ,
+    "Fidelity"    : FID ,
+    "FIDELITY"    : FID
 }
 
 # Fund codes/names
