@@ -12,7 +12,7 @@ __author__          = "Mark Sattolo"
 __author_email__    = "epistemik@gmail.com"
 __gnucash_version__ = "3.6+"
 __created__ = "2019-04-07"
-__updated__ = "2024-10-05"
+__updated__ = "2024-12-22"
 
 import threading
 from datetime import date
@@ -475,7 +475,7 @@ class GnucashSession:
             gtx.SetNotes(tx1[NOTES] + " | " + tx2[NOTES])
             spl_ast.SetMemo(tx1[NOTES])
             split_2.SetMemo(tx2[NOTES])
-        elif tx1[TYPE] in (RDMPN,PURCH):
+        elif tx1[TYPE] in (RDMPN,PURCH,INCASH_TRIN,INCASH_TROUT):
             # the second split is for the HOLD account
             split_2.SetAccount(self._root_acct.lookup_by_name(HOLD))
             # MAY need a THIRD split for Financial Services expense e.g. fees, commissions
