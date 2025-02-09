@@ -4,13 +4,13 @@
 # investment.py
 #   -- classes & constants used with my investment scripts
 #
-# Copyright (c) 2024 Mark Sattolo <epistemik@gmail.com>
+# Copyright (c) 2025 Mark Sattolo <epistemik@gmail.com>
 
 __author__         = "Mark Sattolo"
 __author_email__   = "epistemik@gmail.com"
 __python_version__ = "3.6+"
 __created__ = "2018"
-__updated__ = "2024-12-19"
+__updated__ = "2025-02-09"
 
 from sys import path
 path.append("/home/marksa/git/Python/utils/")
@@ -122,6 +122,8 @@ DCA_OUT:str     = DLR_AVE + SW_OUT
 FND_MERG:str    = FUND + " Merger"
 PLAN_DATA:str   = "Plan Data"
 OWNER:str       = "Owner"
+MGMT:str        = "Management"
+RMFR:str        = REINV + ' ' + MGMT + " Fee Rebate"
 TRANS_IN:str      = "Transfer-in"
 TRANS_OUT:str     = "Transfer-out"
 INCASH_TRIN:str   = "In " + CASH + " " + TRANS_IN
