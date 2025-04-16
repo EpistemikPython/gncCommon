@@ -253,7 +253,7 @@ FUNDS_LIST = [
 MONEY_MKT_FUNDS = [MFC_298, MFC_4378, TML_204, TML_703]
 
 TRUST_AST_ACCT = CIG_18140
-TRUST_EQY_ACCT = "Trust Base"
+TRUST_EQY_ACCT = "Trust_Base"
 TRUST_REV_ACCT = "Trust_Rev"
 
 # find the proper path to the account in the gnucash file
