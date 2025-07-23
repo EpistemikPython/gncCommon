@@ -10,7 +10,7 @@ __author__         = "Mark Sattolo"
 __author_email__   = "epistemik@gmail.com"
 __python_version__ = "3.6+"
 __created__ = "2018"
-__updated__ = "2025-02-09"
+__updated__ = "2025-07-20"
 
 from sys import path
 path.append("/home/marksa/git/Python/utils/")
@@ -170,6 +170,7 @@ FUND_NAME_CODE = {
     "Renaissance" : ATL ,
     "RENAISSANCE" : ATL ,
     "CI"          : CIG ,
+    "Ci"          : CIG ,
     "Cambridge"   : CIG ,
     "CAMBRIDGE"   : CIG ,
     "Signature"   : CIG ,
